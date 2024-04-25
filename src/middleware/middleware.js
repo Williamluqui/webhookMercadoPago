@@ -24,12 +24,13 @@ async function consultValidUrl(req, res, next) {
 
     if (cyphedSignature !== signature) {
       console.log("HMAC verification failed");
+      res.status(200);
       throw new Error("HMAC verification failed");
     }
     next();
   } catch (error) {
     console.log(`[ERRO] ${error}`);
-    res.status(401).json({
+    res.status(200).json({
       message: "Verification failed " + error,
     });
   }

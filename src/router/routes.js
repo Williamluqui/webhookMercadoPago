@@ -4,7 +4,7 @@ const Router = require("express");
 const middleware = require("../middleware/middleware");
 const sendResponse = require("../controller/hook.controller");
 
-router.get("/notifications", middleware, sendResponse);
+router.post("/notifications", middleware, sendResponse);
 
 router.post("/send-verification");
 
