@@ -1,0 +1,17 @@
+version: '3.8'
+
+
+services:
+  webhook:
+    container_name: webhook
+    build: .
+    env_file:
+      - .env
+    ports:
+      - 3555:3555
+    volumes:
+      - .:/usr/src/app
+    restart: always
+
+
+
