@@ -4,7 +4,9 @@ async function consultValidUrl(req, res, next) {
   const headerSignature = req.headers["x-signature"];
   const xRequestId = req.headers["x-request-id"];
   const dataID = req.query["data.id"];
-
+  console.log('[X-SIG]',headerSignature)
+  console.log('[X-REQ]',xRequestId)
+  console.log('[DATAID]',dataID)
   const SECRET_SIGNATURE = process.env.SECRET_SIGNATURE;
   try {
     if (!headerSignature || !xRequestId) throw new Error("Headers malformed !");
