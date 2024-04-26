@@ -3,13 +3,26 @@ const crypto = require("crypto");
 async function consultValidUrl(req, res, next) {
   const headerSignature = req.headers["x-signature"];
   const xRequestId = req.headers["x-request-id"];
-  const dataID = req.query["data.id"];
-  console.log('[X-SIG]',headerSignature)
-  console.log('[X-REQ]',xRequestId)
-  console.log('[DATAID]',dataID)
+  const dataQuery = req.query;
+
   const SECRET_SIGNATURE = process.env.SECRET_SIGNATURE;
+
+  if (!SECRET_SIGNATURE)
+    return res
+      .status(401)
+      .json({ error: "Senha do webhook (Assinatura secreta) não encontrada !" });
+
   try {
-    if (!headerSignature || !xRequestId) throw new Error("Headers malformed !");
+    const idQuery = dataQuery["data.id"] ? dataQuery["data.id"] : dataQuery["id"];
+
+    if (!idQuery)
+      return res
+        .status(401)
+        .json({ error: "Não foram encontradas informações vindas da url! " });
+
+    if (!headerSignature || !xRequestId)
+      throw new Error("Cabeçalho inválido ou faltando !");
+
     const splitSignature = headerSignature.split(",");
 
     const [time, code] = splitSignature;
@@ -17,23 +30,21 @@ async function consultValidUrl(req, res, next) {
     const signature = code.replace("v1=", "");
     const timestamp = Number(time.replace("ts=", ""));
 
-    const manifest = `id:${dataID};request-id:${xRequestId};ts:${timestamp};`;
-
+    const manifest = `id:${idQuery};request-id:${xRequestId};ts:${timestamp};`;
     const cyphedSignature = crypto
       .createHmac("sha256", SECRET_SIGNATURE)
       .update(manifest)
       .digest("hex");
 
     if (cyphedSignature !== signature) {
-      console.log("HMAC verification failed");
-      res.status(200);
       throw new Error("HMAC verification failed");
     }
     next();
   } catch (error) {
     console.log(`[ERRO] ${error}`);
-    res.status(200).json({
-      message: "Verification failed " + error,
+    res.status(401).json({
+      message: "A verificação falhou, ",
+      error: "" + error,
     });
   }
 }

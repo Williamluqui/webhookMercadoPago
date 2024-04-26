@@ -1,11 +1,15 @@
 const express = require("express");
-const router = express.Router();
-const Router = require("express");
+
 const middleware = require("../middleware/middleware");
-const sendResponse = require("../controller/hook.controller");
+const processWebhook = require("../controller/hook.controller");
+const hello = require("../controller/hello.controller");
 
-router.post("/notifications", middleware, sendResponse);
+const router = express.Router();
 
-router.post("/send-verification");
+router.post("/notifications", middleware, processWebhook);
+
+router.post("/send-notifications", hello);
+
+router.get("/metrics");
 
 module.exports = router;
