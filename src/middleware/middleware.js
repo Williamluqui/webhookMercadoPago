@@ -43,8 +43,8 @@ async function consultValidUrl(req, res, next) {
   } catch (error) {
     console.log(`[ERRO] ${error}`);
     res.status(401).json({
-      message: "A verificação falhou, ",
-      error: "" + error,
+      message: "A verificação falhou ",
+      error: error.message,
     });
   }
 }
