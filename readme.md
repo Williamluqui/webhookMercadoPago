@@ -60,7 +60,7 @@ Pagamento
         "statusDatails": "accredited",
         "serviceName": " <NOME DO SERVIÇO> ",
         "value": <VALOR-DO-PRODUTO>,
-        "dateAproved": "2022-04-26T14:26:40.562-04:00",
+        "dateApproved": "2022-04-26T14:26:40.562-04:00",
         "dateCreated": "2022-04-26T14:26:40.379-04:00"
     }
 }

@@ -55,7 +55,7 @@ class WebhookController {
         statusDatails: response.status_detail,
         serviceName: response.description,
         value: response.transaction_amount,
-        dateAproved: response.date_approved,
+        dateApproved: response.date_approved,
         dateCreated: response.date_created,
       };
       console.log(
