@@ -13,12 +13,10 @@ async function consultValidUrl(req, res, next) {
       .json({ error: "Senha do webhook (Assinatura secreta) não encontrada !" });
 
   try {
+    if (!dataQuery["data.id"]) {
+      return res.status(200).json({ success: "Verificação do hook ok." });
+    }
     const idQuery = dataQuery["data.id"] ? dataQuery["data.id"] : dataQuery["id"];
-
-    if (!idQuery)
-      return res
-        .status(401)
-        .json({ error: "Não foram encontradas informações vindas da url! " });
 
     if (!headerSignature || !xRequestId)
       throw new Error("Cabeçalho inválido ou faltando !");

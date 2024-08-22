@@ -23,7 +23,7 @@ async function sendData(data) {
     }
     const responseData = await response.json();
 
-    console.log(`[${response.status}][API]=`, responseData);
+    console.log(`[${response.status}][API]=`, responseData.message);
     return responseData;
   } catch (error) {
     console.error("Erro ao fazer a requisição:", error.message);
